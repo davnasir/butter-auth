@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { CircleCheck, Eye, EyeSlash, FloppyDisk } from "@gravity-ui/icons";
 import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
+import Link from "next/link";
 
-const page = () => {
+const Singup = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -71,8 +72,8 @@ const page = () => {
                                     <CircleCheck></CircleCheck>
                                     Submit
                                 </Button>
-                                <Button type="reset" variant="secondary">
-                                    reset
+                                <Button variant="secondary">
+                                    <Link href="login">login</Link>
                                 </Button>
                             </Fieldset.Actions>
                         </FieldGroup>
@@ -83,4 +84,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Singup;
