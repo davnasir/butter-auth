@@ -1,27 +1,29 @@
 "use client";
 import React, { useState } from "react";
-import { CircleCheck, Eye, EyeSlash, FloppyDisk } from "@gravity-ui/icons";
-import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
+import { CircleCheck, Eye, EyeSlash, } from "@gravity-ui/icons";
+import { Button, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 const Loginpage = () => {
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
-        formData.forEach((value, key) => {
-            data[key] = value.toString();
+        const userData = Object.fromEntries(formData.entries());
+        const { data, error } = await await authClient.signIn.email({
+            email: userData.email,
+            password: userData.password,
+            rememberMe: true,
+            callbackURL: '/',
         });
 
-        console.log(data); // Data দেখার জন্য
-        alert("Form submitted successfully!");
     };
     const [password, setPassword] = useState("");
     const [isVisible, setIsVisible] = useState(false);
-    
     return (
         <div className="flex justify-center items-center bg-amber-200">
-            <div className="h-screen py-50">
+            <div className="h-screen py-10">
                 <Form className="w-full " onSubmit={onSubmit}>
                     <Fieldset>
                         <Fieldset.Legend> Login Page  </Fieldset.Legend>
@@ -60,7 +62,7 @@ const Loginpage = () => {
                                     Submit
                                 </Button>
                                 <Button type="reset" variant="secondary">
-                                   <Link href="singup">Singup</Link>
+                                    <Link href="singup">Singup</Link>
                                 </Button>
                             </Fieldset.Actions>
                         </FieldGroup>

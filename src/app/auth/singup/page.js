@@ -1,26 +1,37 @@
-"use client";
+'use client';
 import React, { useState } from "react";
-import { CircleCheck, Eye, EyeSlash, FloppyDisk } from "@gravity-ui/icons";
+import { CircleCheck, Eye, EyeSlash } from "@gravity-ui/icons";
 import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+
 
 const Singup = () => {
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
-        formData.forEach((value, key) => {
-            data[key] = value.toString();
+        const userData = Object.fromEntries(formData.entries());
+        const { data, error } = await authClient.signUp.email({
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            callbackURL: '/'
         });
-
-        console.log(data); // Data দেখার জন্য
-        alert("Form submitted successfully!");
+        if (error) {
+            alert("Singup erro")
+        }
+        if (data) {
+            alert("Singup ok")
+        }
     };
+
     const [password, setPassword] = useState("");
     const [isVisible, setIsVisible] = useState(false);
+
     return (
         <div className="flex justify-center items-center bg-amber-200">
-            <div className="h-screen py-50">
+            <div className="h-screen py-20">
                 <Form className="w-full" onSubmit={onSubmit}>
                     <Fieldset>
                         <Fieldset.Legend> Create a New Account </Fieldset.Legend>
@@ -36,22 +47,23 @@ const Singup = () => {
                                 }}
                             >
                                 <Label>Name</Label>
-                                <Input placeholder="John Doe" />
+                                <Input placeholder="John Doe" name="name" />
                                 <FieldError />
                             </TextField>
-                            <TextField isRequired name="email" type="email">
+                            <TextField isRequired type="email">
                                 <Label>Email</Label>
-                                <Input placeholder="john@example.com" />
+                                <Input placeholder="john@example.com" name="email" />
                                 <FieldError />
                             </TextField>
-                            <TextField className="w-full max-w-70" name="password">
+                            <TextField className="w-full max-w-70" >
                                 <Label>Password</Label>
                                 <InputGroup>
-                                    <InputGroup.Input
+                                    <Input
                                         className="w-full max-w-70"
                                         type={isVisible ? "text" : "password"}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
+                                        name="password"
                                         placeholder="Inter Your Password"
                                     />
                                     <InputGroup.Suffix className="pe-0">
