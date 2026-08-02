@@ -4,6 +4,7 @@ import { CircleCheck, Eye, EyeSlash } from "@gravity-ui/icons";
 import { Button, Description, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 
 const Singup = () => {
@@ -16,13 +17,14 @@ const Singup = () => {
             name: userData.name,
             email: userData.email,
             password: userData.password,
-            callbackURL: '/'
+            callbackURL: '/',
         });
         if (error) {
+
             alert("Singup erro")
         }
         if (data) {
-            alert("Singup ok")
+            toast.success("You’re all set! Registration completed successfully")
         }
     };
 

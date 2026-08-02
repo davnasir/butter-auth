@@ -4,6 +4,7 @@ import { CircleCheck, Eye, EyeSlash, } from "@gravity-ui/icons";
 import { Button, FieldError, FieldGroup, Fieldset, Form, Input, InputGroup, Label, TextArea, TextField } from "@heroui/react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 const Loginpage = () => {
     const onSubmit = async (e) => {
@@ -17,6 +18,10 @@ const Loginpage = () => {
             rememberMe: true,
             callbackURL: '/',
         });
+
+        if (data) {
+            toast.success("You’re Login successfully")
+        }
 
     };
     const [password, setPassword] = useState("");
